@@ -12,7 +12,7 @@ import org.zalando.grafter.macros.{defaultReader, readerOf}
 
 import scala.concurrent.Future
 
-@defaultReader[OneForgeClientJS]
+@defaultReader[OneForgeClientProxy]
 trait OneForgeClient {
   type QuotesResult = circe.Error Either List[Quote]
 
@@ -25,7 +25,7 @@ trait OneForgeClient {
 }
 
 @readerOf[ApplicationConfig]
-case class OneForgeClientJS( // TODO could use akka HTTP which was already in dependencies
+case class OneForgeClientProxy( // TODO could use akka HTTP which was already in dependencies
     config: OneForgeConfig
 ) extends OneForgeClient with LazyLogging {
   import config.{apiKey, baseUrl}
