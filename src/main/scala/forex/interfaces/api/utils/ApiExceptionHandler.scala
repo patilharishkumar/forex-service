@@ -1,18 +1,23 @@
 package forex.interfaces.api.utils
 
 import akka.http.scaladsl._
+import akka.http.scaladsl.model.HttpResponse
 import forex.processes._
+import forex.processes.rates.messages.Error.BackgroundSyncError
 
 object ApiExceptionHandler {
 
   def apply(): server.ExceptionHandler =
     server.ExceptionHandler {
-      case _: RatesError ⇒
+      case BackgroundSyncError(msg) ⇒
         ctx ⇒
-          ctx.complete("Something went wrong in the rates process")
-      case _: Throwable ⇒
+          ctx.complete( HttpResponse(500, entity = "Proxy error." + msg))
+      case err: RatesError ⇒
         ctx ⇒
-          ctx.complete("Something else went wrong")
+          ctx.complete( HttpResponse(500, entity = "Undocumented API Error." + err.getMessage))
+      case t: Throwable ⇒
+        ctx ⇒
+          ctx.complete(HttpResponse(500, entity = "Unexpected happend: " + t.getMessage))
     }
 
 }

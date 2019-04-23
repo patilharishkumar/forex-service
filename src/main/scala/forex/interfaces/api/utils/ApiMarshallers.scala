@@ -5,4 +5,4 @@ import marshalling._
 
 trait ApiMarshallers extends EffTaskSupport
 
-object ApiMarshallers extends EffTaskSupport with ErrorAccumulatingCirceSupport
+object ApiMarshallers extends ApiMarshallers with ErrorAccumulatingCirceSupport
