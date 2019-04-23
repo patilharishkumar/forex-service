@@ -1,10 +1,13 @@
 package forex.domain
 
 import cats.Show
+import cats.syntax.either._
 import io.circe._
 
 sealed trait Currency
+
 object Currency {
+
   final case object AUD extends Currency
   final case object CAD extends Currency
   final case object CHF extends Currency
@@ -14,6 +17,8 @@ object Currency {
   final case object JPY extends Currency
   final case object SGD extends Currency
   final case object USD extends Currency
+
+  var all: Set[Currency] = Set(AUD, CAD, CHF, EUR, GBP, NZD, JPY, SGD, USD)
 
   implicit val show: Show[Currency] = Show.show {
     case AUD ⇒ "AUD"
@@ -37,9 +42,18 @@ object Currency {
     case "JPY" | "jpy" ⇒ JPY
     case "SGD" | "sgd" ⇒ SGD
     case "USD" | "usd" ⇒ USD
+    case _             ⇒ throw new IllegalArgumentException(s"Unknown currency code : $s")
+
   }
 
   implicit val encoder: Encoder[Currency] =
-    Encoder.instance[Currency] { show.show _ andThen Json.fromString }
+    Encoder.instance[Currency] {
+      show.show _ andThen Json.fromString
+    }
 
+  implicit val decoder: Decoder[Currency] =
+    Decoder.decodeString.emap[Currency] { str ⇒
+      Either.catchNonFatal(Currency.fromString(str))
+        .leftMap(t ⇒ t.getMessage)
+    }
 }

@@ -6,3 +6,12 @@ build
 target
 .metadata
 .mock
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+.cache
+.lib/
+
+.idea/*
+classes/

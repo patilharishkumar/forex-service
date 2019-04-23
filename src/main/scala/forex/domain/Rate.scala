@@ -16,6 +16,13 @@ object Rate {
   )
 
   object Pair {
+    val allPairs: Set[Pair] = // could ask only for half of pairs and to calculate the opositly ordered pair
+      for {
+        from ← Currency.all
+        to ← Currency.all
+        if from != to
+      } yield Pair(from, to)
+
     implicit val encoder: Encoder[Pair] =
       deriveEncoder[Pair]
   }
