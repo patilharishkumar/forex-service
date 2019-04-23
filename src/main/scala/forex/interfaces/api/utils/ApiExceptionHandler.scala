@@ -19,5 +19,4 @@ object ApiExceptionHandler {
         ctx ⇒
           ctx.complete(HttpResponse(500, entity = "Unexpected happend: " + t.getMessage))
     }
-
 }

@@ -12,9 +12,11 @@ case class Routes(
   import server.Directives._
 
   lazy val route: server.Route =
-    handleExceptions(ApiExceptionHandler()) {
-      handleRejections(ApiRejectionHandler()) {
-        ratesRoutes.route
+    pathPrefix("api" / "v1") {
+      handleExceptions(ApiExceptionHandler()) {
+        handleRejections(ApiRejectionHandler()) {
+          pathPrefix("rate") { ratesRoutes.route }
+        }
       }
     }
 }

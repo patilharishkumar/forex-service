@@ -69,7 +69,7 @@ class ProcessesSpec extends WordSpec with Matchers with ScalatestRouteTest with 
     val (from, to) = (Probe.from, Probe.to)
 
     val query = Uri.Query("from" → from.toString, "to" → to.toString)
-    val uri = Uri("/").withQuery(query)
+    val uri = Uri("/api/v1/rate").withQuery(query)
   }
 }
 

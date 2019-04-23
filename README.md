@@ -4,11 +4,6 @@ Forex is a simple application that acts as a local proxy for getting exchange ra
 
 Allowed currencies: AUD, CAD, CHF, EUR, GBP, NZD, JPY, SGD, USD
 
-1. fire Rate request with dummy implementation ~write first test
-2. write a client to 1Forge
-3. rates source as a separate entity with already cached 1Forge
-4. refactor and improve API feedback for bad scenarios
-
 # Usage
 To run the tests:
 ```
@@ -22,11 +17,11 @@ sbt run
 
 Ask for a rate for pair of Euro and Yen:
 ```bash
-curl "http://localhost:8888/?from=USD&to=JPY"
+curl "http://localhost:8888/api/v1/rate?from=USD&to=JPY"
 ```
 Response:
 ```
-{"from":"USD","to":"JPY","price":111.913,"timestamp":"2019-04-23T06:03:04Z"}
+{"from":"USD","to":"JPY","price":111.86,"timestamp":"2019-04-23T07:49:57Z"}
 ```
 
 Returned time is in the UTC zone with seconds precision.
